@@ -5,6 +5,7 @@ import           System.Console.GetOpt
 import           System.IO
 import           System.Exit
 import           System.Environment
+import           Control.Monad (when)
 import           Data.List
 import           Data.Maybe (fromMaybe)
 import           Text.Printf
@@ -19,7 +20,7 @@ import           Control.Monad (forM_)
 
 transformFile :: Options -> String -> IO ()
 transformFile opts file = do
-    print opts
+    when (debug opts) $ print opts
     print file
 
 main :: IO ()
@@ -35,14 +36,16 @@ main = do
 
 data Options = Options
     { generateAll  :: Bool
-    , printHelp    :: Bool
     , outputDir    :: String
+    , printHelp    :: Bool
+    , debug        :: Bool
     } deriving Show
 
 defaultOptions = Options
     { generateAll  = False
     , outputDir    = "dist"
     , printHelp    = False
+    , debug        = False
     }
 
 boolFromMaybe:: String -> Bool
@@ -59,9 +62,12 @@ options =
    [ Option ['a'] ["generate-all"]
        (OptArg ((\ o opts -> opts { generateAll = boolFromMaybe o }) . fromMaybe "true") "BOOL")
        "generate all"
+   , Option ['d'] ["debug"]
+       (OptArg ((\ o opts -> opts { debug = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       "debug"
    , Option ['o'] ["output-dir"]
-       (OptArg ((\ o opts -> opts { outputDir = o }) . fromMaybe "") "BOOL")
-       "generate all"
+       (OptArg ((\ o opts -> opts { outputDir = o }) . fromMaybe "") "DIR")
+       "output directory for generated files"
    , Option ['h'] ["help"]
        (NoArg (\ opts -> opts { printHelp = True }))
        "print this help message"
