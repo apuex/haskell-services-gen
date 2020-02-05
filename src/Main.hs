@@ -20,7 +20,7 @@ import           Control.Monad (forM_)
 
 transformFile :: Options -> String -> IO ()
 transformFile opts file = do
-    when (debug opts) $ print opts
+    when (verbose opts || debug opts) $ print opts
     print file
 
 main :: IO ()
@@ -39,6 +39,7 @@ data Options = Options
     , outputDir    :: String
     , printHelp    :: Bool
     , debug        :: Bool
+    , verbose      :: Bool
     } deriving Show
 
 defaultOptions = Options
@@ -46,6 +47,7 @@ defaultOptions = Options
     , outputDir    = "dist"
     , printHelp    = False
     , debug        = False
+    , verbose      = False
     }
 
 boolFromMaybe:: String -> Bool
@@ -64,7 +66,10 @@ options =
        "generate all"
    , Option ['d'] ["debug"]
        (OptArg ((\ o opts -> opts { debug = boolFromMaybe o }) . fromMaybe "true") "BOOL")
-       "debug"
+       "print out debug information"
+   , Option [] ["verbose"]
+       (NoArg (\ opts -> opts { verbose = True }))
+       "print out verbose information"
    , Option ['o'] ["output-dir"]
        (OptArg ((\ o opts -> opts { outputDir = o }) . fromMaybe "") "DIR")
        "output directory for generated files"
