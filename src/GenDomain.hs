@@ -21,5 +21,5 @@ import qualified CmdLine as CL
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
-    printf "GenDomain: %s\n" file
+    printf "%s: %s\n" (CL.paddingRight ("GenDomain"::String) 12) file
 

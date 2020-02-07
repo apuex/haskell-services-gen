@@ -21,6 +21,7 @@ executable haskell-services-gen
   other-modules:       CmdLine,
                        GenMessage,
                        GenDomain,
+                       GenDao,
                        GenService,
                        GenRoute,
                        Gen

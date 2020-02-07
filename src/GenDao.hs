@@ -1,5 +1,5 @@
 {-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
-module GenMessage (gen) where
+module GenDao (gen) where
 
 import           System.IO
 import           System.Exit
@@ -21,5 +21,5 @@ import qualified CmdLine as CL
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
-    printf "%s: %s\n" (CL.paddingRight ("GenMessage"::String) 12) file
+    printf "%s: %s\n" (CL.paddingRight ("GenDao"::String) 12) file
 

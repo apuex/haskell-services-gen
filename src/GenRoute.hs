@@ -21,5 +21,5 @@ import qualified CmdLine as CL
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
-    printf "GenRoute: %s\n" file
+    printf "%s: %s\n" (CL.paddingRight ("GenRoute"::String) 12) file
 

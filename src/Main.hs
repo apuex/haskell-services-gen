@@ -14,7 +14,7 @@ main = do
     progName <- getProgName
     args     <- getArgs
     (opts, files) <- CL.compileOpts progName args
-    if ( CL.printVersion opts ) 
+    if CL.printVersion opts
         then putStrLn $ CL.versionInfo progName
         else if null files
         then do

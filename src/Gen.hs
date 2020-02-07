@@ -4,6 +4,7 @@ import           Control.Monad (when)
 import qualified CmdLine as CL
 import qualified GenMessage as Message
 import qualified GenDomain  as Domain
+import qualified GenDao as Dao
 import qualified GenService as Service
 import qualified GenRoute   as Route
 
@@ -13,6 +14,7 @@ gen opts file = do
     let gens =
             [ Message.gen
             , Domain.gen
+            , Dao.gen
             , Service.gen
             , Route.gen
             ]

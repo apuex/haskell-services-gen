@@ -21,5 +21,5 @@ import qualified CmdLine as CL
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
-    printf "GenService: %s\n" file
+    printf "%s: %s\n" (CL.paddingRight ("GenService"::String) 12) file
 

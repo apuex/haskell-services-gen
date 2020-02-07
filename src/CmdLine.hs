@@ -76,3 +76,14 @@ versionInfo progName = printf "%s-%s by Wangxy <xtwxy@hotmail.com> licensed with
 helpHeader :: PrintfArg t => t -> String
 helpHeader progName = printf "%s\nUsage: %s [OPTION...] files..." (versionInfo progName) progName
 
+paddingLeft :: String -> Int -> String
+paddingLeft s n =
+    printf fmt s where
+        fmt = printf "%%%d.%ds" n n
+
+paddingRight :: String -> Int -> String
+paddingRight s n =
+    reverse rpl where
+        rs  = reverse s
+        fmt = printf "%%%d.%ds" n n
+        rpl = printf fmt rs
