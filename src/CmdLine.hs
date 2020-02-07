@@ -15,7 +15,6 @@ data Options = Options
     , genRoute     :: Bool
     , outputDir    :: String
     , printHelp    :: Bool
-    , debug        :: Bool
     , printVersion :: Bool
     , verbose      :: Bool
     } deriving Show
@@ -28,7 +27,6 @@ defaultOptions = Options
     , genRoute     = False
     , outputDir    = "dist"
     , printHelp    = False
-    , debug        = False
     , printVersion = False
     , verbose      = False
     }
@@ -68,9 +66,6 @@ options =
    , Option [] ["generate-route"]
        (OptArg ((\ o opts -> opts { genRoute = boolFromMaybe o }) . fromMaybe "true") "BOOL")
        "generate http/websockets routes"
-   , Option ['d'] ["debug"]
-       (OptArg ((\ o opts -> opts { debug = boolFromMaybe o }) . fromMaybe "true") "BOOL")
-       "print out debug information"
    , Option [] ["verbose"]
        (NoArg (\ opts -> opts { verbose = True }))
        "print out verbose information"

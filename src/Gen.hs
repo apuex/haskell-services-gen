@@ -15,7 +15,7 @@ import qualified GenRoute   as Route
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
-    when (CL.verbose opts || CL.debug opts) $ print opts
+    when (CL.verbose opts) $ print opts
     let gens = getGens opts
     if null gens
         then hPutStrLn stderr "no generators enabled."
