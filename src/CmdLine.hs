@@ -12,6 +12,7 @@ data Options = Options
     , outputDir    :: String
     , printHelp    :: Bool
     , debug        :: Bool
+    , printVersion :: Bool
     , verbose      :: Bool
     } deriving Show
 
@@ -20,6 +21,7 @@ defaultOptions = Options
     , outputDir    = "dist"
     , printHelp    = False
     , debug        = False
+    , printVersion = False
     , verbose      = False
     }
 
@@ -46,6 +48,9 @@ options =
    , Option ['o'] ["output-dir"]
        (OptArg ((\ o opts -> opts { outputDir = o }) . fromMaybe "") "DIR")
        "output directory for generated files"
+   , Option ['v'] ["version"]
+       (NoArg (\ opts -> opts { printVersion = True }))
+       "print version number"
    , Option ['h'] ["help"]
        (NoArg (\ opts -> opts { printHelp = True }))
        "print this help message"
@@ -62,5 +67,12 @@ compileOpts progName argv = case getOpt Permute options argv of
     (_,_,errs) -> ioError (userError (concat errs ++ usageInfo header options))
     where header = helpHeader progName
 
+versionNumber :: String
+versionNumber = "0.1.0.0"
+
+versionInfo :: PrintfArg t => t -> String
+versionInfo progName = printf "%s-%s by Wangxy <xtwxy@hotmail.com> licensed with Mozilla Public License Version 2.0." progName versionNumber
+
 helpHeader :: PrintfArg t => t -> String
-helpHeader = printf "Usage: %s [OPTION...] files..."
+helpHeader progName = printf "%s\nUsage: %s [OPTION...] files..." (versionInfo progName) progName
+
