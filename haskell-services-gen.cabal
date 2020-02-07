@@ -3,23 +3,28 @@
 
 name:                haskell-services-gen
 version:             0.1.0.0
--- synopsis:            
--- description:         
+-- synopsis:
+-- description:
 homepage:            https://github.com/apuex/haskell-services-gen
 license:             MPL-2.0
 license-file:        LICENSE
 author:              Wangxy
 maintainer:          xtwxy@hotmail.com
--- copyright:           
+-- copyright:
 category:            Web
 build-type:          Simple
--- extra-source-files:  
+-- extra-source-files:
 cabal-version:       >=1.10
 
 executable haskell-services-gen
   main-is:             Main.hs
-  -- other-modules:       
-  -- other-extensions:    
+  other-modules:       CmdLine,
+                       GenMessage,
+                       GenDomain,
+                       GenService,
+                       GenRoute,
+                       Gen
+  -- other-extensions:
   build-depends:
     base          >= 4.8     && < 4.90,
     containers    >= 0.5.6.2 && < 0.6.0.0,
