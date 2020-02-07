@@ -1,7 +1,7 @@
 module Gen(
             gen
           , getGens
-          , generators
+          , gensFromOpts
           ) where
 
 import           System.IO
@@ -32,10 +32,10 @@ getGens opts = justGens $ removeNothing maybeGens
             Just jg -> True
             Nothing -> False
             )
-        maybeGens     = map (\ g -> g opts) generators
+        maybeGens     = map (\ g -> g opts) gensFromOpts
 
-
-generators =
+gensFromOpts :: [CL.Options -> Maybe (CL.Options -> String -> IO ())]
+gensFromOpts =
     [ \ opts -> if CL.genMessage opts then Just Message.gen else Nothing
     , \ opts -> if CL.genDomain opts then Just Domain.gen else Nothing
     , \ opts -> if CL.genDao opts then Just Dao.gen else Nothing
