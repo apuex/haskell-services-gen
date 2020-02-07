@@ -19,6 +19,7 @@ cabal-version:       >=1.10
 executable haskell-services-gen
   main-is:             Main.hs
   other-modules:       CmdLine,
+                       ModelLoader,
                        GenMessage,
                        GenDomain,
                        GenDao,

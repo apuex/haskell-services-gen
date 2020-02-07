@@ -1,5 +1,5 @@
 {-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
-module GenMessage (gen) where
+module ModelLoader where
 
 import           System.IO (stderr)
 import           System.Exit

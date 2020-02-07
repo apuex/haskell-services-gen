@@ -1,5 +1,10 @@
-module Gen(gen) where
+module Gen(
+            gen
+          , getGens
+          , generators
+          ) where
 
+import           System.IO
 import           Control.Monad (when)
 import qualified CmdLine as CL
 import qualified GenMessage as Message
@@ -11,12 +16,29 @@ import qualified GenRoute   as Route
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
     when (CL.verbose opts || CL.debug opts) $ print opts
-    let gens =
-            [ Message.gen
-            , Domain.gen
-            , Dao.gen
-            , Service.gen
-            , Route.gen
-            ]
-    mapM_ (\ g -> g opts file) gens
+    let gens = getGens opts
+    if null gens
+        then hPutStrLn stderr "no generators enabled."
+        else mapM_ (\ g -> g opts file) gens
 
+getGens :: CL.Options -> [CL.Options -> String -> IO ()]
+getGens opts = justGens $ removeNothing maybeGens
+    where
+        justGens      = map (\ g -> case g of
+            Just jg -> jg
+            _       -> error "Something bad happend..."
+            )
+        removeNothing = filter (\ g -> case g of
+            Just jg -> True
+            Nothing -> False
+            )
+        maybeGens     = map (\ g -> g opts) generators
+
+
+generators =
+    [ \ opts -> if CL.genMessage opts then Just Message.gen else Nothing
+    , \ opts -> if CL.genDomain opts then Just Domain.gen else Nothing
+    , \ opts -> if CL.genDao opts then Just Dao.gen else Nothing
+    , \ opts -> if CL.genService opts then Just Service.gen else Nothing
+    , \ opts -> if CL.genRoute opts then Just Route.gen else Nothing
+    ]

@@ -8,7 +8,11 @@ import           Text.Printf
 
 
 data Options = Options
-    { generateAll  :: Bool
+    { genMessage   :: Bool
+    , genDomain    :: Bool
+    , genDao       :: Bool
+    , genService   :: Bool
+    , genRoute     :: Bool
     , outputDir    :: String
     , printHelp    :: Bool
     , debug        :: Bool
@@ -17,7 +21,11 @@ data Options = Options
     } deriving Show
 
 defaultOptions = Options
-    { generateAll  = False
+    { genMessage   = False
+    , genDomain    = False
+    , genDao       = False
+    , genService   = False
+    , genRoute     = False
     , outputDir    = "dist"
     , printHelp    = False
     , debug        = False
@@ -36,9 +44,30 @@ boolFromMaybe ms = case ms of
 
 options :: [OptDescr (Options -> Options)]
 options =
-   [ Option ['a'] ["generate-all"]
-       (OptArg ((\ o opts -> opts { generateAll = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+   [ Option ['A'] ["generate-all"]
+       (OptArg ((\ o opts -> opts
+               { genMessage  = boolFromMaybe o
+               , genDomain   = boolFromMaybe o
+               , genDao      = boolFromMaybe o
+               , genService  = boolFromMaybe o
+               , genRoute    = boolFromMaybe o
+               }) . fromMaybe "true") "BOOL")
        "generate all"
+   , Option [] ["generate-message"]
+       (OptArg ((\ o opts -> opts { genMessage = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       "generate message and json parser/format"
+   , Option [] ["generate-domain"]
+       (OptArg ((\ o opts -> opts { genDomain = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       "generate domain logic"
+   , Option [] ["generate-dao"]
+       (OptArg ((\ o opts -> opts { genDao = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       "generate dao"
+   , Option [] ["generate-service"]
+       (OptArg ((\ o opts -> opts { genService = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       "generate service"
+   , Option [] ["generate-route"]
+       (OptArg ((\ o opts -> opts { genRoute = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       "generate http/websockets routes"
    , Option ['d'] ["debug"]
        (OptArg ((\ o opts -> opts { debug = boolFromMaybe o }) . fromMaybe "true") "BOOL")
        "print out debug information"
