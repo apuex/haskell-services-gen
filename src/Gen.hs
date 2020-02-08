@@ -5,6 +5,7 @@ module Gen(
           ) where
 
 import           System.IO
+import           Data.Maybe (fromMaybe)
 import           Control.Monad (when)
 import qualified CmdLine as CL
 import qualified GenMessage as Message
@@ -24,14 +25,10 @@ gen opts file = do
 getGens :: CL.Options -> [CL.Options -> String -> IO ()]
 getGens opts = justGens $ removeNothing maybeGens
     where
-        justGens      = map (\ g -> case g of
-            Just jg -> jg
-            _       -> error "Something bad happend..."
-            )
+        justGens      = map (fromMaybe (error "Something bad happend..."))
         removeNothing = filter (\ g -> case g of
-            Just jg -> True
-            Nothing -> False
-            )
+            Just _ -> True
+            Nothing -> False)
         maybeGens     = map (\ g -> g opts) gensFromOpts
 
 gensFromOpts :: [CL.Options -> Maybe (CL.Options -> String -> IO ())]
