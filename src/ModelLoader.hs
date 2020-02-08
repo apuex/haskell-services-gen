@@ -3,7 +3,6 @@ module ModelLoader where
 
 import           System.IO (stderr)
 import           System.Exit
-import           Control.Monad (when)
 import           Data.List
 import           Data.Maybe (fromMaybe)
 import           Text.Printf
@@ -17,18 +16,24 @@ import           Data.Text (Text)
 import           Control.Monad (forM_)
 import qualified CmdLine as CL
 
+data Model = Model
+    { name         :: Text
+    , version      :: Text
+    , maintainer   :: Text
+    , package      :: Text
+    , dbSchema     :: Text
+    , journalTable :: Text
+    } deriving Show
 
-gen :: CL.Options -> String -> IO ()
-gen opts file = do
-    printf "%s: %s\n" (CL.paddingRight ("GenMessage"::String) 12) file
-    Document prologue root epilogue <- readFile def file
-    genMessage opts root
-
-genMessage :: CL.Options -> Element -> IO ()
-genMessage opts root = do
-    case root of
-        Element "model" attrs children ->
-            mapM_ (\e -> printf "%s -> %s\n" (nameLocalName (fst e)) (snd e)) (M.toList attrs)
-        Element name attrs children -> do
-            hPrintf stderr "Invalid root element name: %s\n" (show name)
-            exitFailure
+model :: Element -> Maybe Model
+model root = case root of
+    Element "model" attrs children ->
+        Just Model
+        { name         = fromMaybe "example-service"   $ M.lookup "name"         attrs
+        , version      = fromMaybe "1.0.0"             $ M.lookup "version"      attrs
+        , maintainer   = fromMaybe "xtwxy@hotmail.com" $ M.lookup "maintainer"   attrs
+        , package      = fromMaybe "Example"           $ M.lookup "package"      attrs
+        , dbSchema     = fromMaybe "dbSchema"          $ M.lookup "dbSchema"     attrs
+        , journalTable = fromMaybe "event_journal"     $ M.lookup "journalTable" attrs
+        }
+    _-> Nothing

@@ -1,3 +1,4 @@
+{-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
 module CmdLine where
 
 import           System.Console.GetOpt

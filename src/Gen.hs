@@ -1,22 +1,28 @@
+{-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
 module Gen(
             gen
           , getGens
           , gensFromOpts
           ) where
 
-import           System.IO
-import           Data.Maybe (fromMaybe)
+import           System.IO (stderr, hPutStrLn)
 import           Control.Monad (when)
-import qualified CmdLine as CL
-import qualified GenMessage as Message
-import qualified GenDomain  as Domain
-import qualified GenDao as Dao
-import qualified GenService as Service
-import qualified GenRoute   as Route
+import           Data.Maybe (fromMaybe)
+import           Prelude         hiding (readFile, writeFile)
+import           Text.XML
+import qualified CmdLine     as CL
+import qualified ModelLoader as ML
+import qualified GenMessage  as Message
+import qualified GenDomain   as Domain
+import qualified GenDao      as Dao
+import qualified GenService  as Service
+import qualified GenRoute    as Route
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
     when (CL.verbose opts) $ print opts
+    Document prologue root epilogue <- readFile def file
+    let model = ML.model root
     let gens = getGens opts
     if null gens
         then hPutStrLn stderr "no generators enabled."
