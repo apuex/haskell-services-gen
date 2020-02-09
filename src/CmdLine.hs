@@ -4,6 +4,7 @@ module CmdLine where
 import           System.Console.GetOpt
 import           System.IO
 import           System.Exit
+import           Data.Text (Text, pack)
 import           Data.Maybe (fromMaybe)
 import           Text.Printf
 
@@ -14,7 +15,7 @@ data Options = Options
     , genDao       :: Bool
     , genService   :: Bool
     , genRoute     :: Bool
-    , outputDir    :: String
+    , outputDir    :: Text
     , printHelp    :: Bool
     , printVersion :: Bool
     , verbose      :: Bool
@@ -71,7 +72,7 @@ options =
        (NoArg (\ opts -> opts { verbose = True }))
        "print out verbose information"
    , Option ['o'] ["output-dir"]
-       (OptArg ((\ o opts -> opts { outputDir = o }) . fromMaybe "") "DIR")
+       (OptArg ((\ o opts -> opts { outputDir = pack o }) . fromMaybe "") "DIR")
        "output directory for generated files"
    , Option ['v'] ["version"]
        (NoArg (\ opts -> opts { printVersion = True }))
