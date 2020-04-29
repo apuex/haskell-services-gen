@@ -30,9 +30,9 @@ executable haskell-services-gen
   build-depends:
     base          >= 4.8,
     containers    >= 0.5.6.2,
-    xml-hamlet    >= 0.5.0   && < 0.6.0.0,
-    xml-conduit   >= 1.5.0   && < 1.8.0,
-    shakespeare   >= 2.0.15  && < 2.1.0,
+    xml-hamlet    >= 0.4.1   && < 0.6.0.0,
+    xml-conduit   >= 1.3.5   && < 1.8.0,
+    shakespeare   >= 2.0.13  && < 2.1.0,
     text          >= 1.2.2.1 && < 1.2.4.1
   hs-source-dirs:      src
   default-language:    Haskell2010
