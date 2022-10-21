@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<model name="my_sample" package="com.sample" dbSchema="sampledb">
+  <!-- enum object using microsoft naming convention -->
+  <enum name="EntityType" generate="true">
+    <field no="1" name="id" type="int" required="true" comment="enum value"/>
+    <field no="2" name="name" type="string" length="64" comment="enum name"/>
+    <primaryKey name="EntityTypePk">
+      <field name="id"/>
+    </primaryKey>
+    <values>
+      <version no="1">
+        <value id="0" name="ENUM_CONSTANT_ONE" comment="constant one"/>
+        <value id="1" name="ENUM_CONSTANT_TWO" comment="constant two"/>
+        <value id="2" name="ENUM_CONSTANT_THREE" comment="constant three"/>
+      </version>
+      <version no="2">
+        <value id="3" name="ENUM_CONSTANT_FOUR" comment="constant four"/>
+      </version>
+    </values>
+  </enum>
+  <!-- enum object using unix c naming convention -->
+  <entity name="one_entity" aggregateRoot="true" generate="true">
+    <version no="1">
+      <field no="1" name="one_entity_id" type="string" length="64" required="true"/>
+      <field no="2" name="one_entity_name" type="string" length="64" aggregate="true"/>
+      <field no="3" name="one_entity_type" type="EntityType" aggregate="true"/>
+      <field no="4" name="one_entity_desc" type="string" length="64" aggregate="true"/>
+    </version>
+    <version no="2">
+      <field no="5" name="one_entity_code" type="string" length="64" aggregate="true"/>
+      <field no="6" name="one_entity_abbreviation" type="string" length="64" aggregate="true"/>
+      <field no="7" name="one_entity_weight" type="double" aggregate="true"/>
+    </version>
+    <message name="wash_brain">
+      <field no="1" name="one_entity_id"/>
+      <field no="2" name="one_entity_name"/>
+    </message>
+    <primaryKey name="one_entity_pk">
+      <field name="one_entity_id"/>
+    </primaryKey>
+  </entity>
+  <!-- enum object using microsoft naming convention -->
+  <entity name="AnotherEntity" aggregateRoot="true" generate="true">
+    <version no="1">
+      <field no="1" name="AnotherEntityId" type="string" length="64" required="true"/>
+      <field no="2" name="AnotherEntityName" type="string" length="64" aggregate="true"/>
+      <field no="3" name="AnotherEntityType" type="EntityType" aggregate="true"/>
+      <field no="4" name="AnotherEntityDesc" type="string" length="64" aggregate="true"/>
+    </version>
+    <version no="2">
+      <field no="5" name="AnotherEntityCode" type="string" length="64" aggregate="true"/>
+      <field no="6" name="AnotherEntityAbbreviation" type="string" length="64" aggregate="true"/>
+      <field no="7" name="AnotherEntityWeight" type="double" aggregate="true"/>
+    </version>
+    <primaryKey name="AnotherEntityPk">
+      <field name="AnotherEntityId"/>
+    </primaryKey>
+  </entity>
+  <!-- parent-child relationship -->
+  <enum name="animal_species">
+    <field no="1" name="id" type="int" required="true" comment="enum value"/>
+    <field no="2" name="name" type="string" length="64" comment="enum name"/>
+    <primaryKey name="animal_species_pk">
+      <field name="id"/>
+    </primaryKey>
+    <values>
+      <version no="1">
+        <value id="0" name="FOOL_SPECIES" comment="fool"/>
+        <value id="1" name="DOG_SPECIES" comment="dog"/>
+        <value id="2" name="CAT_SPECIES" comment="cat"/>
+      </version>
+    </values>
+  </enum>
+  <entity name="animal" aggregateRoot="true" generate="true">
+    <version no="1">
+      <field no="1" name="id" type="int" required="true"/>
+      <field no="2" name="name" type="string" length="64" aggregate="true"/>
+      <field no="3" name="species" type="animal_species" />
+      <field no="4" name="birth_day" type="timestamp" />
+    </version>
+    <primaryKey name="animal_pk">
+      <field name="id"/>
+    </primaryKey>
+  </entity>
+  <entity name="cat" aggregateRoot="true" generate="true" extends="animal">
+    <version no="1">
+      <field no="1" name="cat_id" type="int" required="true"/>
+      <field no="5" name="desc" type="string" length="64" aggregate="true"/>
+    </version>
+    <primaryKey name="cat_pk">
+      <field name="cat_id"/>
+    </primaryKey>
+    <foreignKey name="cat_animal_fk" refEntity="animal">
+      <field name="cat_id" refField="id"/>
+    </foreignKey>
+  </entity>
+  <entity name="dog" aggregateRoot="true" generate="true" extends="animal">
+    <version no="1">
+      <field no="1" name="dog_id" type="int" required="true"/>
+      <field no="5" name="desc" type="string" length="64" aggregate="true"/>
+    </version>
+    <primaryKey name="dog_pk">
+      <field name="dog_id"/>
+    </primaryKey>
+    <foreignKey name="dog_animal_fk" refEntity="animal">
+      <field name="dog_id" refField="id"/>
+    </foreignKey>
+  </entity>
+  <entity name="fool" aggregateRoot="true" generate="true" extends="animal">
+    <version no="1">
+      <field no="1" name="id" type="int" required="true"/>
+      <field no="5" name="bite" type="bool" aggregate="true"/>
+    </version>
+    <primaryKey name="fool_pk">
+      <field name="id"/>
+    </primaryKey>
+    <foreignKey name="fool_animal_fk" refEntity="animal">
+      <field name="id" refField="id"/>
+    </foreignKey>
+  </entity>
+</model>
