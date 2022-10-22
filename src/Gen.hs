@@ -23,6 +23,7 @@ gen opts file = do
     when (CL.verbose opts) $ print opts
     Document prologue root epilogue <- readFile def file
     let model = ML.model root
+    print model
     let gens = getGens opts
     if null gens
         then hPutStrLn stderr "no generators enabled."
