@@ -33,8 +33,8 @@ defaultOptions = Options
     , verbose      = False
     }
 
-boolFromMaybe:: String -> Bool
-boolFromMaybe ms = case ms of
+boolFromString:: String -> Bool
+boolFromString ms = case ms of
            "true"   -> True
            "false"  -> False
            "1"      -> True
@@ -46,27 +46,27 @@ options :: [OptDescr (Options -> Options)]
 options =
    [ Option ['A'] ["generate-all"]
        (OptArg ((\ o opts -> opts
-               { genMessage  = boolFromMaybe o
-               , genDomain   = boolFromMaybe o
-               , genDao      = boolFromMaybe o
-               , genService  = boolFromMaybe o
-               , genRoute    = boolFromMaybe o
+               { genMessage  = boolFromString o
+               , genDomain   = boolFromString o
+               , genDao      = boolFromString o
+               , genService  = boolFromString o
+               , genRoute    = boolFromString o
                }) . fromMaybe "true") "BOOL")
        "generate all"
    , Option [] ["generate-message"]
-       (OptArg ((\ o opts -> opts { genMessage = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       (OptArg ((\ o opts -> opts { genMessage = boolFromString o }) . fromMaybe "true") "BOOL")
        "generate message and json parser/format"
    , Option [] ["generate-domain"]
-       (OptArg ((\ o opts -> opts { genDomain = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       (OptArg ((\ o opts -> opts { genDomain = boolFromString o }) . fromMaybe "true") "BOOL")
        "generate domain logic"
    , Option [] ["generate-dao"]
-       (OptArg ((\ o opts -> opts { genDao = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       (OptArg ((\ o opts -> opts { genDao = boolFromString o }) . fromMaybe "true") "BOOL")
        "generate dao"
    , Option [] ["generate-service"]
-       (OptArg ((\ o opts -> opts { genService = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       (OptArg ((\ o opts -> opts { genService = boolFromString o }) . fromMaybe "true") "BOOL")
        "generate service"
    , Option [] ["generate-route"]
-       (OptArg ((\ o opts -> opts { genRoute = boolFromMaybe o }) . fromMaybe "true") "BOOL")
+       (OptArg ((\ o opts -> opts { genRoute = boolFromString o }) . fromMaybe "true") "BOOL")
        "generate http/websockets routes"
    , Option [] ["verbose"]
        (NoArg (\ opts -> opts { verbose = True }))
