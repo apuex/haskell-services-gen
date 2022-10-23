@@ -68,6 +68,14 @@ data Field
     , fieldSize    :: Maybe Int -- Just a Number
     , fieldComment :: T.Text
     }
+    | EnumerateField
+    { fieldName    :: T.Text
+    , fieldComment :: T.Text
+    }
+    | EntityField
+    { fieldName    :: T.Text
+    , fieldComment :: T.Text
+    }
     deriving (Eq, Show, Generic)
 
 data Version = Version
