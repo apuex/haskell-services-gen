@@ -7,16 +7,7 @@
 {-# LANGUAGE StrictData #-}
 module Metadata where
 
-import qualified System.IO              as IO
-import qualified Data.List              as L
-import qualified Data.Maybe             as Maybe
-import qualified Data.Map               as Map
-import qualified Text.Hamlet.XML        as THX
-import qualified Text.XML               as TX
-import qualified Text.Shakespeare.Text  as TST
-import qualified Data.Text.Lazy.IO      as TLIO
 import qualified Data.Text              as T
-import qualified Control.Monad          as M
 import           GHC.Generics              (Generic)
 
 data Field
@@ -55,6 +46,11 @@ data Field
     , fieldSize    :: Maybe Int -- (0, 64) bits
     , fieldComment :: T.Text
     }
+    | UInt64Field
+    { fieldName    :: T.Text
+    , fieldSize    :: Maybe Int -- (0, 64) bits
+    , fieldComment :: T.Text
+    }
     | Float32Field
     { fieldName    :: T.Text
     , fieldComment :: T.Text
@@ -70,10 +66,14 @@ data Field
     }
     | EnumerateField
     { fieldName    :: T.Text
+    , fieldType    :: T.Text
+    , fieldSize    :: Maybe Int -- Just a Number
     , fieldComment :: T.Text
     }
     | EntityField
     { fieldName    :: T.Text
+    , fieldType    :: T.Text
+    , fieldSize    :: Maybe Int -- Just a Number
     , fieldComment :: T.Text
     }
     deriving (Eq, Show, Generic)
