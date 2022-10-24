@@ -14,7 +14,6 @@ import           Text.Shakespeare.Text
 import qualified Data.Text.Lazy.IO      as TLIO
 import qualified Data.Text              as T
 import           Control.Monad          (forM_)
-import qualified CmdLine                as CL
 
 data Field = Field
     { fieldNo      :: Int

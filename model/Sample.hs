@@ -3,8 +3,6 @@
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE BinaryLiterals #-}
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE Strict #-}
-{-# LANGUAGE StrictData #-}
 module Sample where
 
 import qualified Metadata               as Meta
@@ -104,6 +102,13 @@ updateDataObjValue = Meta.Message
     , Meta.entityFields =
         [ updateDataObjValueFieldVersion1
         , updateDataObjValueFieldVersion2
+        ]
+    }
+
+model = Meta.Model
+    { Meta.enums = []
+    , Meta.entities =
+        [ updateDataObjValue
         ]
     }
 

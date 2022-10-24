@@ -1,5 +1,5 @@
 {-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
-module Gen(
+module GenDSL(
             gen
           , getGens
           , gensFromOpts
