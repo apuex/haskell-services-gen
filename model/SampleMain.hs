@@ -18,5 +18,5 @@ main = do
     (opts, files) <- CL.compileOpts progName args
     if CL.printVersion opts
         then putStrLn $ CL.versionInfo progName
-        else mapM_ (putStrLn) files
+        else mapM_ (G.gen opts) files
 
